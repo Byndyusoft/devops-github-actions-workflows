@@ -31,7 +31,7 @@ jobs:
   # This workflow contains a single job called "greet"
   build:
     name: Build image
-    runs-on: ${{ secrets.GITHUB_RUNNER }}
+    runs-on: ${{ secrets.RUNNER_GITHUB }}
     steps:
       - uses: actions/checkout@v2
 
