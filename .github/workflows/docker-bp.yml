@@ -6,16 +6,6 @@ name: Build image
 # or API.
 on:
   workflow_call:
-    # Inputs the workflow accepts.
-    inputs:
-      name:
-        # Friendly description to be shown
-        description: 'Reason to build'
-        # Default value if no value is explicitly provided
-        default: 'Development'
-        # Input has to be provided for the workflow to run
-        required: true
-        type: string
     secrets:
       RUNNER_GITHUB:
         required: true
