@@ -1,4 +1,13 @@
 # This is a basic workflow for docker image build and push
+#
+#  Builds docker image and push it to docker registry useng basic authorization
+#  Requires
+#    actions-runner-controller inside k8s cluster with dind without container
+#  Can be used from another repository with https://docs.github.com/en/actions/learn-github-actions/reusing-workflows
+#  Caller repository reuired
+#    Dockerfile 
+#    Secret envs 
+
 
 name: Build image
 
@@ -12,6 +21,10 @@ on:
       DOCKERHUB_USERNAME:
         required: true
       DOCKERHUB_PASSWORD:
+        required: true
+      IMAGE_NAME:
+        required: true
+      IMAGE_TAG:
         required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -49,7 +62,7 @@ jobs:
           context: .
           # Note: tags has to be all lower-case
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/demo:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
       - name: Image digest
