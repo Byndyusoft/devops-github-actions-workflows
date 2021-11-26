@@ -43,7 +43,6 @@ jobs:
         with:
           script: |
             # console.log(context)
-            console.log('env', process.env)
             if ( context.ref.match(/refs\/tags\/.*/)) {
               const result = "latest-release/n" +context.ref.match(/refs\/.*\/(.*)/)[1]
               return result
