@@ -40,7 +40,7 @@ jobs:
         id: get-tags
         with:
           script: |
-            # console.log(context)
+            console.log(context)
             if ( context.ref.match(/refs\/tags\/.*/)) {
               const result = "latest-release/n" +context.ref.match(/refs\/.*\/(.*)/)[1]
               return result
