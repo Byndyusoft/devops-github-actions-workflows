@@ -46,11 +46,11 @@ jobs:
             console.log(context.repo.repo)
             console.log(context.ref)
             if ( context.ref.match(/refs\/tags\/.*/)) {
-              const result = "latest-release/n" +  context.ref.match(/refs\/.*\/(.*)/)
+              const result = "latest-release/n" +  context.ref.match(/refs\/.*\/(.*)/)[1]
               console.log(result)
             } else {
               const result = context.ref.match(/refs\/.*\/(.*)/)
-              console.log(result)
+              console.log(result[1])
             }
 
       - name: List tags
