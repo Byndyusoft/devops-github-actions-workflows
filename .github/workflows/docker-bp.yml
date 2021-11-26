@@ -39,6 +39,7 @@ jobs:
         uses: actions/github-script@v5
         id: get-tags
         with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
           script: |
             console.log(context.repo.owner)
             console.log(context.repo.repo)
@@ -47,7 +48,7 @@ jobs:
               const result = ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":latest-release/n" + ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":" +context.ref.match(/refs\/.*\/(.*)/)[1]
               return result
             } else {
-              console.log( ${{ secrets }} )
+              console.log( username )
               console.log( ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":" + context.ref.match(/refs\/.*\/(.*)/)[1] )
               const result = ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":" + context.ref.match(/refs\/.*\/(.*)/)[1] 
               return result
