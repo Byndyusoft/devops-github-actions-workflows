@@ -47,10 +47,9 @@ jobs:
             if ( context.ref.match(/refs\/tags\/.*/)) {
               const result = "latest-release/n" +context.ref.match(/refs\/.*\/(.*)/)[1]
               return result
-            } else {
-              
-              console.log( process.env.DOCKERHUB_USERNAME + "/"+ process.env.IMAGE_NAME + ":"+ context.ref.match(/refs\/.*\/(.*)/)[1] )
-              const result = process.env.DOCKERHUB_USERNAME + "/"+ process.env.IMAGE_NAME + ":"+ context.ref.match(/refs\/.*\/(.*)/)[1] 
+            } else {         
+              const result = process.env.DOCKERHUB_USERNAME + "/"+ process.env.IMAGE_NAME + ":"+ context.ref.match(/refs\/.*\/(.*)/)[1] +
+                process.env.DOCKERHUB_USERNAME + "/"+ process.env.IMAGE_NAME + ":latest"
               return result
             }
 
