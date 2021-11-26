@@ -45,6 +45,10 @@ jobs:
             console.log(context.repo.owner)
             console.log(context.repo.repo)
             console.log(context.ref)
+            if ( context.ref.match(/refs\/tags\/.*/)) {
+              const result = "latest-release"
+              console.log(result)
+            }
 
       - name: List tags
         run: echo "${{steps.get-tags.outputs.result}}"
