@@ -38,8 +38,6 @@ jobs:
       - name: Get tags for images
         uses: actions/github-script@v5
         id: get-tags
-        env:
-          DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
         with:
           script: |
             # console.log(context)
