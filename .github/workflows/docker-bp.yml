@@ -41,6 +41,7 @@ jobs:
         with:
           script: |
             console.log(github.ref)
+            const diff_url = context.payload.pull_request.diff_url
             const result = await github.request(diff_url)
             console.log(result)
             const commit = await github.rest.repos.getCommit({
