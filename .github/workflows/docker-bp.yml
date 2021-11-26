@@ -39,16 +39,16 @@ jobs:
         uses: actions/github-script@v5
         id: get-tags
         env:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         with:
           script: |
             console.log(context.ref)
-            console.log('env', process.env)
             if ( context.ref.match(/refs\/tags\/.*/)) {
               const result = "latest-release/n" +context.ref.match(/refs\/.*\/(.*)/)[1]
               return result
             } else {
-              console.log( context.ref.match(/refs\/.*\/(.*)/)[1] )
+              
+              console.log( process.env.DOCKERHUB_USERNAME + context.ref.match(/refs\/.*\/(.*)/)[1] )
               const result = context.ref.match(/refs\/.*\/(.*)/)[1] 
               return result
             }
