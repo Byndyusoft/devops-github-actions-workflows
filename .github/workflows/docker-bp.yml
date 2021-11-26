@@ -39,7 +39,7 @@ jobs:
         uses: actions/github-script@v5
         id: get-tags
         env:
-          USER: ${{ secrets.DOCKERHUB_USERNAME }}
+          USER: FUN
         with:
           script: |
             const {USER} = process.env
