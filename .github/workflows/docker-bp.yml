@@ -44,8 +44,8 @@ jobs:
           script: |
             console.log(context.repo.owner)
             console.log(context.repo.repo)
-            const ref = await github.rest.repos.getRef()
-            console.log(ref)
+            console.log(context.ref)
+
       - name: List tags
         run: echo "${{steps.get-tags.outputs.result}}"
 
