@@ -47,7 +47,7 @@ jobs:
               const result = ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":latest-release/n" + ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":" +context.ref.match(/refs\/.*\/(.*)/)[1]
               return result
             } else {
-              console.log( ${{ secrets.DOCKERHUB_USERNAME }} )
+              console.log( ${{ secrets }} )
               console.log( ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":" + context.ref.match(/refs\/.*\/(.*)/)[1] )
               const result = ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":" + context.ref.match(/refs\/.*\/(.*)/)[1] 
               return result
