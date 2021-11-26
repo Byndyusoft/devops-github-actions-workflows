@@ -52,6 +52,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Get tags for images
+        uses: actions/github-script@v5
+        id: get-tags
+        with:
+          script: |
+            if (startsWith(github.ref, 'refs/tags/')) {
+              const result = "latest-release"
+            }
+      - name: List tags
+        run: echo "${{steps.get-tags.outputs.result}}"
+
       - name: Build image and push to Docker Hub and GitHub Container Registry
         id: docker_build
         uses: docker/build-push-action@v2
