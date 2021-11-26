@@ -41,9 +41,16 @@ jobs:
         with:
           script: |
             console.log(github.ref)
-            if ( github.ref.match(/refs\/tags\/.*/)) {
-              const result = "latest-release"
-            }
+            const result = await github.request(diff_url)
+            console.log(result)
+            const commit = await github.rest.repos.getCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `${SHA}`
+            })
+            console.log(commit)
+            const ref = await github.rest.repos.getRef()
+
       - name: List tags
         run: echo "${{steps.get-tags.outputs.result}}"
 
