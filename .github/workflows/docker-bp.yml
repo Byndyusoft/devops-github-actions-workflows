@@ -42,8 +42,8 @@ jobs:
           USER: FUN
         with:
           script: |
-            const {USER} = process.env
-            console.log( USER )
+            # const {USER} = process.env
+            console.log( "USER" )
             # console.log(context)
             #if ( context.ref.match(/refs\/tags\/.*/)) {
             #  const result = ":latest-release/n" +context.ref.match(/refs\/.*\/(.*)/)[1]
