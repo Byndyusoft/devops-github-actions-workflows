@@ -39,19 +39,19 @@ jobs:
         uses: actions/github-script@v5
         id: get-tags
         env:
-          USER: ${{ secrets.DOCKERHUB_USERNAME }}
+          USER: '${{ secrets.DOCKERHUB_USERNAME }}'
         with:
           script: |
-            const { USER } = process.env
-            console.log(` $USER `)
+            const {USER} = process.env
+            console.log(`Username ${USER} `)
             # console.log(context)
             if ( context.ref.match(/refs\/tags\/.*/)) {
-              const result = ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":latest-release/n" + ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":" +context.ref.match(/refs\/.*\/(.*)/)[1]
+              const result = ":latest-release/n" +context.ref.match(/refs\/.*\/(.*)/)[1]
               return result
             } else {
               console.log(` $USER ' )
-              console.log( ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":" + context.ref.match(/refs\/.*\/(.*)/)[1] )
-              const result = ${{ secrets.DOCKERHUB_USERNAME }} + "/" + ${{ secrets.IMAGE_NAME }} + ":" + context.ref.match(/refs\/.*\/(.*)/)[1] 
+              console.log( context.ref.match(/refs\/.*\/(.*)/)[1] )
+              const result = context.ref.match(/refs\/.*\/(.*)/)[1] 
               return result
             }
 
