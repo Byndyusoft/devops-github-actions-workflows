@@ -50,6 +50,7 @@ jobs:
               console.log(result)
             } else {
               const result = context.ref.match(/refs\/.*\/(.*)/)
+              console.log(result)
             }
 
       - name: List tags
