@@ -40,18 +40,15 @@ jobs:
         id: get-tags
         with:
           script: |
-            # const {USER} = process.env
-            console.log( "USER" )
-            # console.log(context)
-            #if ( context.ref.match(/refs\/tags\/.*/)) {
-            #  const result = ":latest-release/n" +context.ref.match(/refs\/.*\/(.*)/)[1]
-            #  return result
-            #} else {
-            #  console.log(` $USER ' )
-            #  console.log( context.ref.match(/refs\/.*\/(.*)/)[1] )
-            #  const result = context.ref.match(/refs\/.*\/(.*)/)[1] 
-            #  return result
-            #}
+            console.log(context)
+            if ( context.ref.match(/refs\/tags\/.*/)) {
+              const result = "latest-release/n" +context.ref.match(/refs\/.*\/(.*)/)[1]
+              return result
+            } else {
+              console.log( context.ref.match(/refs\/.*\/(.*)/)[1] )
+              const result = context.ref.match(/refs\/.*\/(.*)/)[1] 
+              return result
+            }
 
       - name: List tags
         run: echo ${{steps.get-tags.outputs.result}}
