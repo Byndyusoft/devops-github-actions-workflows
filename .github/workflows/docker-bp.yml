@@ -35,6 +35,17 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
+      - name: Get tags for images
+        uses: actions/github-script@v5
+        id: get-tags
+        with:
+          script: |
+            console.log(github.ref)
+            if ( github.ref.match(/refs\/tags\/.*/)) {
+              const result = "latest-release"
+            }
+      - name: List tags
+        run: echo "${{steps.get-tags.outputs.result}}"
 
       - name: setup docker context for buildx
         id: buildx
@@ -51,17 +62,6 @@ jobs:
           # registry: docker.com
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-
-      - name: Get tags for images
-        uses: actions/github-script@v5
-        id: get-tags
-        with:
-          script: |
-            if ( github.ref.match(/refs\/tags\/.*/)) {
-              const result = "latest-release"
-            }
-      - name: List tags
-        run: echo "${{steps.get-tags.outputs.result}}"
 
       - name: Build image and push to Docker Hub and GitHub Container Registry
         id: docker_build
