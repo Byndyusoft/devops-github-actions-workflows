@@ -40,6 +40,7 @@ jobs:
         id: get-tags
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
         with:
           script: |
             console.log(context.ref)
@@ -48,8 +49,8 @@ jobs:
               return result
             } else {
               
-              console.log( process.env.DOCKERHUB_USERNAME + context.ref.match(/refs\/.*\/(.*)/)[1] )
-              const result = context.ref.match(/refs\/.*\/(.*)/)[1] 
+              console.log( process.env.DOCKERHUB_USERNAME + "/"+ process.env.IMAGE_NAME + ":"+ context.ref.match(/refs\/.*\/(.*)/)[1] )
+              const result = process.env.DOCKERHUB_USERNAME + "/"+ process.env.IMAGE_NAME + ":"+ context.ref.match(/refs\/.*\/(.*)/)[1] 
               return result
             }
 
@@ -81,7 +82,7 @@ jobs:
           context: .
           # Note: tags has to be all lower-case
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
+            ${{steps.get-tags.outputs.result}}
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
       - name: Image digest
