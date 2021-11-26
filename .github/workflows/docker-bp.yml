@@ -57,7 +57,7 @@ jobs:
         id: get-tags
         with:
           script: |
-            if (startsWith(github.ref, 'refs/tags/')) {
+            if ( github.ref.match(/refs\/tags\/.*/)) {
               const result = "latest-release"
             }
       - name: List tags
