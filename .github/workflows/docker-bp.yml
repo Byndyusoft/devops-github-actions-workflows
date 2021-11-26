@@ -38,8 +38,6 @@ jobs:
       - name: Get tags for images
         uses: actions/github-script@v5
         id: get-tags
-        env:
-          USER: FUN
         with:
           script: |
             # const {USER} = process.env
