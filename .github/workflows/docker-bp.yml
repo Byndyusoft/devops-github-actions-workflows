@@ -55,7 +55,12 @@ jobs:
             }
 
       - name: List tags
-        run: echo ${{steps.get-tags.outputs.result}}
+        run: |
+          tags=${{steps.get-tags.outputs.result}}
+          for item in ${tags[*]}
+          do
+           echo $item
+          done
 
       - name: setup docker context for buildx
         id: buildx
