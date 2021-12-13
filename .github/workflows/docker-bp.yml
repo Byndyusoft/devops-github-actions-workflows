@@ -45,7 +45,7 @@ jobs:
           script: |
             console.log(context.ref)
             if ( context.ref.match(/refs\/tags\/.*/)) {
-              const result = "release" // +context.ref.match(/refs\/.*\/(.*)/)[1]
+              const result = "release"
               return result
             } else {        
               const result = "latest"
