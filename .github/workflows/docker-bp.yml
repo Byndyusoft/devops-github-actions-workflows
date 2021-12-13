@@ -55,15 +55,16 @@ jobs:
       - name: Get tags
         id: get-tags
         run: |
-          if [[ ${{steps.get-tags.outputs.result}} == "release" ]]; then
-            echo "Release"
-            echo ::set-output name=docker_tag::$(echo "latest-release")
-            echo ::set-output name=docker_tag_custom::$(echo ${{context.ref.match(/refs\/.*\/(.*)/)[1]}})
-          else
-            echo "Development"
-            echo ::set-output name=docker_tag::$(echo "latest")
-            echo ::set-output name=docker_tag_custom::$(echo ${{context.ref.match(/refs\/.*\/(.*)/)[1]}})
-          fi
+         env
+         # if [[ ${{steps.get-tags.outputs.result}} == "release" ]]; then
+         #   echo "Release"
+         #   echo ::set-output name=docker_tag::$(echo "latest-release")
+         #   echo ::set-output name=docker_tag_custom::$(echo ${{context.ref.match(/refs\/.*\/(.*)/)[1]}})
+         # else
+         #   echo "Development"
+         #   echo ::set-output name=docker_tag::$(echo "latest")
+         #   echo ::set-output name=docker_tag_custom::$(echo ${{context.ref.match(/refs\/.*\/(.*)/)[1]}})
+         # fi
 
       - name: List tags
         run: |
