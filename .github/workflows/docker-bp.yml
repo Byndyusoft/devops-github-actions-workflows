@@ -49,13 +49,13 @@ jobs:
               return result
             } else {         
               const result = ['latest','custom']
+              console.log(result[0])
               console.log(result[1])
-              console.log(result[2])
               return result
             }
 
       - name: List tags
-        run: echo ${{steps.get-tags.outputs.result[1]}}
+        run: echo ${{steps.get-tags.outputs.result}}
 
       - name: setup docker context for buildx
         id: buildx
