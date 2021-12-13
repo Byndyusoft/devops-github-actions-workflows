@@ -31,13 +31,13 @@ on:
 jobs:
   # This workflow contains a single job called "greet"
   build:
-    name: Build image
+    name: Get release
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
       - name: Get tags for images
         uses: actions/github-script@v5
-        id: get-tags
+        id: get-release
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
@@ -45,19 +45,30 @@ jobs:
           script: |
             console.log(context.ref)
             if ( context.ref.match(/refs\/tags\/.*/)) {
-              const result = "latest-release/n" +context.ref.match(/refs\/.*\/(.*)/)[1]
+              const result = "release" // +context.ref.match(/refs\/.*\/(.*)/)[1]
               return result
             } else {        
-              const result = '(latest custom)'
+              const result = "latest"
               return result
             }
 
+      - name: Get tags
+        id: get-tags
+        run: |
+          if [[ ${{steps.get-tags.outputs.result}} == "release" ]]; then
+            echo "Release"
+            echo ::set-output name=docker_tag::$(echo "latest-release")
+            echo ::set-output name=docker_tag_custom::$(echo ${{context.ref.match(/refs\/.*\/(.*)/)[1]}})
+          else
+            echo "Development"
+            echo ::set-output name=docker_tag::$(echo "latest")
+            echo ::set-output name=docker_tag_custom::$(echo ${{context.ref.match(/refs\/.*\/(.*)/)[1]}})
+          fi
+
       - name: List tags
         run: |
-          tags=${{steps.get-tags.outputs.result}}
-          echo ${tags[0]}
-          echo ${tags[1]}
-          echo $tags
+          echo ${{ steps.get-tags.outputs.docker_tag }}
+          echo ${{ steps.get-tags.outputs.docker_tag_custom }} 
 
 
       - name: setup docker context for buildx
@@ -85,7 +96,8 @@ jobs:
           context: .
           # Note: tags has to be all lower-case
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{steps.get-tags.outputs.result[1]}}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{ steps.get-tags.outputs.docker_tag }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{ steps.get-tags.outputs.docker_tag_custom }}
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
       - name: Image digest
