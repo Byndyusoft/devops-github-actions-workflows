@@ -48,13 +48,14 @@ jobs:
               const result = "latest-release/n" +context.ref.match(/refs\/.*\/(.*)/)[1]
               return result
             } else {         
-              const result = '["'+ process.env.DOCKERHUB_USERNAME + '/'+ process.env.IMAGE_NAME + ':'+ context.ref.match(/refs\/.*\/(.*)/)[1] + '","'+
-                process.env.DOCKERHUB_USERNAME + '/'+ process.env.IMAGE_NAME + ':latest"]'
+              const result = ['latest','custom']
+              console.log(result[1])
+              console.log(result[2])
               return result
             }
 
       - name: List tags
-        run: echo ${{steps.get-tags.outputs.result}}
+        run: echo ${{steps.get-tags.outputs.result[1]}}
 
       - name: setup docker context for buildx
         id: buildx
@@ -81,7 +82,7 @@ jobs:
           context: .
           # Note: tags has to be all lower-case
           tags: |
-            ${{steps.get-tags.outputs.result}}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_NAME }}:${{steps.get-tags.outputs.result[1]}}
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
       - name: Image digest
